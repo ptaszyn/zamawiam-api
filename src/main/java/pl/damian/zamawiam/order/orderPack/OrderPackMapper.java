@@ -38,6 +38,8 @@ public class OrderPackMapper implements Mapper<OrderPack, OrderPackDto> {
         dto.setMenuSource(entity.getMenuSource());
         dto.setRestaurantId(entity.getRestaurant().getId());
         dto.setOrderStatusId(entity.getOrderStatus().getId());
+        dto.setStatusChanged(entity.getStatusChanged());
+        dto.setCreated(entity.getCreated());
         if (entity.getOrderMenus() != null)
             dto.setOrderMenus(entity.getOrderMenus().stream().map(orderMenuMapper::toDto).collect(Collectors.toList()));
         return dto;
@@ -55,7 +57,9 @@ public class OrderPackMapper implements Mapper<OrderPack, OrderPackDto> {
         restaurant.ifPresent(entity::setRestaurant);
         Optional<OrderStatus> orderStatus = orderStatusRepository.findById(dto.getOrderStatusId());
         orderStatus.ifPresent(entity::setOrderStatus);
-        if (dto.getOrderMenus() != null)
+        entity.setStatusChanged(dto.getStatusChanged());
+        entity.setCreated(dto.getCreated());
+        if (dto.getOrderMenus() != null && dto.getId() != null)
             entity.setOrderMenus(dto.getOrderMenus().stream().map(orderMenuMapper::toEntity).collect(Collectors.toList()));
         return entity;
     }

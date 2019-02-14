@@ -20,7 +20,7 @@ public class OrderMenuMapper implements Mapper<OrderMenu, OrderMenuDto> {
         entity.setName(dto.getName());
         entity.setComment(dto.getComment());
         entity.setPrice(dto.getPrice());
-        Optional<OrderPack> orderPack = orderPackRepository.findById(dto.getId());
+        Optional<OrderPack> orderPack = orderPackRepository.findById(dto.getOrderPackId());
         orderPack.ifPresent(entity::setOrderPack);
         return entity;
     }

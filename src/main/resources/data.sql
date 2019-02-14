@@ -1,6 +1,6 @@
-INSERT INTO restaurants(id, name, description, contact, requirement) VALUES
-(1, 'India King', 'Restauracja Indyjska', '070072772', 'minimum 5 zestawów'),
-(2, 'Grill Inn', 'Restauracja Śródziemnomorska', '070072772', 'minimalna kwota 35zł');
+INSERT INTO restaurants(id, name, description, contact, requirement, version) VALUES
+(1, 'India King', 'Restauracja Indyjska', '070072772', 'minimum 5 zestawów', 0),
+(2, 'Grill Inn', 'Restauracja Śródziemnomorska', '070072772', 'minimalna kwota 35zł', 0);
 
 insert into food_groups ( id, name, restaurant_id) values
 (1, 'Dania', 1),
