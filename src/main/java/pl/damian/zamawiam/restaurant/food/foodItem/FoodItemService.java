@@ -12,17 +12,16 @@ public class FoodItemService {
     @Autowired
     private FoodItemMapper foodItemMapper;
 
-    public FoodItemDto create(FoodItemDto dto){
-        return saveFoodItemDto(dto);
-    }
-
-    public FoodItemDto update(FoodItemDto dto){
-        return saveFoodItemDto(dto);
-    }
-
-    private FoodItemDto saveFoodItemDto(FoodItemDto dto) {
+    public FoodItemDto create(FoodItemDto dto) {
         FoodItem foodItem = foodItemMapper.toEntity(dto);
         FoodItem foodItemSaved = foodItemRepository.save(foodItem);
+        return foodItemMapper.toDto(foodItemSaved);
+    }
+
+    public FoodItemDto update(FoodItemDto dto) {
+        FoodItem entity = foodItemMapper.toEntity(dto);
+        foodItemRepository.findById(entity.getId()).ifPresent(foodItem -> entity.setVersion(foodItem.getVersion()));
+        FoodItem foodItemSaved = foodItemRepository.save(entity);
         return foodItemMapper.toDto(foodItemSaved);
     }
 }

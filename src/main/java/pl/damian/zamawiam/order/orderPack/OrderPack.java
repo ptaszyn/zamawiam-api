@@ -35,6 +35,8 @@ public class OrderPack {
 
 	private Long menuSource;
 
+	//private LocalDateTime timeLimit;
+
 	@ManyToOne
 	private OrderStatus orderStatus;
 

@@ -37,7 +37,10 @@ public class OrderPackMapper implements Mapper<OrderPack, OrderPackDto> {
         dto.setComment(entity.getComment());
         dto.setMenuSource(entity.getMenuSource());
         dto.setRestaurantId(entity.getRestaurant().getId());
+        dto.setRestaurantName(entity.getRestaurant().getName());
+        //dto.setTimeLimit(entity.getTimeLimit());
         dto.setOrderStatusId(entity.getOrderStatus().getId());
+        dto.setOrderStatusName(entity.getOrderStatus().getName());
         dto.setStatusChanged(entity.getStatusChanged());
         dto.setCreated(entity.getCreated());
         if (entity.getOrderMenus() != null)
@@ -55,6 +58,7 @@ public class OrderPackMapper implements Mapper<OrderPack, OrderPackDto> {
         entity.setMenuSource(dto.getMenuSource());
         Optional<Restaurant> restaurant = restaurantRepository.findById(dto.getRestaurantId());
         restaurant.ifPresent(entity::setRestaurant);
+        //entity.setTimeLimit(dto.getTimeLimit());
         Optional<OrderStatus> orderStatus = orderStatusRepository.findById(dto.getOrderStatusId());
         orderStatus.ifPresent(entity::setOrderStatus);
         entity.setStatusChanged(dto.getStatusChanged());

@@ -1,8 +1,6 @@
 package pl.damian.zamawiam.order.orderPack;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import pl.damian.zamawiam.order.orderPack.orderMenu.OrderMenu;
 import pl.damian.zamawiam.order.orderPack.orderMenu.OrderMenuMapper;
@@ -12,6 +10,7 @@ import pl.damian.zamawiam.security.auth.AuthenticationFacade;
 import pl.damian.zamawiam.security.user.UserDetailsImpl;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +33,10 @@ public class OrderPackService {
 
     @Autowired
     private OrderPackMapper orderPackMapper;
+
+    public Optional<OrderPackDto> findById(Long id){
+        return orderPackRepository.findById(id).map(orderPackMapper::toDto);
+    }
 
     public OrderPackDto create(OrderPackDto dto) {
         UserDetailsImpl userDetails = (UserDetailsImpl) authenticationFacade.getAuthentication().getPrincipal();

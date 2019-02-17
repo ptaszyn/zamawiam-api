@@ -2,15 +2,15 @@ INSERT INTO restaurants(id, name, description, contact, requirement, version) VA
 (1, 'India King', 'Restauracja Indyjska', '070072772', 'minimum 5 zestawów', 0),
 (2, 'Grill Inn', 'Restauracja Śródziemnomorska', '070072772', 'minimalna kwota 35zł', 0);
 
-insert into food_groups ( id, name, restaurant_id) values
-(1, 'Dania', 1),
-(2, 'Dodatki', 1);
+insert into food_groups ( id, name, restaurant_id, is_main) values
+(1, 'Dania', 1, 1),
+(2, 'Dodatki', 1, 0);
 
-insert into food_items (id, food_group_id, name, price, description) values
-(1, 1, 'Butter Chicken', 20.00, 'Kurczak z masłem'),
-(2, 1, 'Malai Paneer Tikka', 24.99, 'Warzywka w szpinaku'),
-(3, 2, 'ryż', 0, ''),
-(4, 2, 'chleb', 1, '');
+insert into food_items (id, food_group_id, name, price, description, version) values
+(1, 1, 'Butter Chicken', 20.00, 'Kurczak z masłem', 0),
+(2, 1, 'Malai Paneer Tikka', 24.99, 'Warzywka w szpinaku', 0),
+(3, 2, 'ryż', 0, '', 0),
+(4, 2, 'chleb', 1, '', 0);
 
 insert into group_groups (main_id, side_id) values
 (1, 2);

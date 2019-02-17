@@ -12,9 +12,12 @@ public class OrderPackDto {
     private Long id;
     private Long userId;
     private Long restaurantId;
+    private String restaurantName;
     private String comment;
     private Long menuSource;
+    //private LocalDateTime timeLimit;
     private Long orderStatusId;
+    private String orderStatusName;
     private LocalDateTime statusChanged;
     private LocalDateTime created;
     private List<OrderMenuDto> orderMenus;

@@ -27,6 +27,8 @@ public class FoodItemResource {
 
     @PutMapping("/{id}")
     public ResponseEntity<FoodItemDto> putFoodItem(@RequestBody FoodItemDto dto){
+        if(dto.getId()==null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         FoodItemDto foodItemDto = foodItemService.update(dto);
         return ResponseEntity.ok(foodItemDto);
     }

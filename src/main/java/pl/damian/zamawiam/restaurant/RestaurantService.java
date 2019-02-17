@@ -31,21 +31,22 @@ public class RestaurantService {
     }
 
     public RestaurantDto create(RestaurantDto dto) {
-        return saveRestaurantDto(dto);
-    }
 
-    public RestaurantDto update(RestaurantDto dto) {
-        return saveRestaurantDto(dto);
-    }
-
-    public List<FoodGroupDto> findMenu(Long id){
-        Optional<Restaurant> restaurant = restaurantRepository.findById(id);
-        return foodGroupRepository.findByRestaurant(restaurant.get()).stream().map(foodGroupMapper::toDto).collect(Collectors.toList());
-    }
-
-    private RestaurantDto saveRestaurantDto(RestaurantDto dto) {
         Restaurant entity = RestaurantMapper.toEntity(dto);
         Restaurant entitySaved = restaurantRepository.save(entity);
         return RestaurantMapper.toDto(entitySaved);
+    }
+
+    public RestaurantDto update(RestaurantDto dto) {
+
+        Restaurant entity = RestaurantMapper.toEntity(dto);
+        restaurantRepository.findById(entity.getId()).ifPresent(restaurant -> entity.setVersion(restaurant.getVersion()));
+        Restaurant entitySaved = restaurantRepository.save(entity);
+        return RestaurantMapper.toDto(entitySaved);
+    }
+
+    public List<FoodGroupDto> findMenu(Long id) {
+        Optional<Restaurant> restaurant = restaurantRepository.findById(id);
+        return foodGroupRepository.findByRestaurant(restaurant.get()).stream().map(foodGroupMapper::toDto).collect(Collectors.toList());
     }
 }

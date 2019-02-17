@@ -16,6 +16,11 @@ public class OrderPackResource {
     @Autowired
     private OrderPackService orderPackService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderPackDto> get(@PathVariable Long id){
+        return orderPackService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping
     public ResponseEntity<OrderPackDto> post(@RequestBody OrderPackDto dto){
         if(dto.getId()!=null)
