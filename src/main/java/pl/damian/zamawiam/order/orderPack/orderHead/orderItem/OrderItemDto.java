@@ -1,7 +1,10 @@
 package pl.damian.zamawiam.order.orderPack.orderHead.orderItem;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 
+@Data
 public class OrderItemDto {
 
     private Long id;
