@@ -1,6 +1,7 @@
 package pl.damian.zamawiam.order.orderPack.orderHead.orderItem;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import pl.damian.zamawiam.core.Mapper;
 import pl.damian.zamawiam.order.orderPack.orderHead.OrderHead;
 import pl.damian.zamawiam.order.orderPack.orderHead.OrderHeadRepository;
@@ -11,6 +12,7 @@ import pl.damian.zamawiam.restaurant.food.foodItem.FoodItemRepository;
 
 import java.util.Optional;
 
+@Component
 public class OrderItemMapper implements Mapper<OrderItem, OrderItemDto> {
 
     @Autowired
