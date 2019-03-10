@@ -24,13 +24,16 @@ public class OrderItemMapper implements Mapper<OrderItem, OrderItemDto> {
     @Autowired
     private FoodItemRepository foodItemRepository;
 
+    @Autowired
+    private OrderItemRepository orderItemRepository;
+
     @Override
     public OrderItemDto toDto(OrderItem entity) {
         OrderItemDto dto = new OrderItemDto();
         dto.setId(entity.getId());
         dto.setOrderHeadId(entity.getOrderHead().getId());
         dto.setAmount(entity.getAmount());
-        dto.setComment(entity.getComment());
+        dto.setParentId(entity.getParentOrderItem().getId());
         dto.setOwnOrder(entity.getOwnOrder());
         if (entity.getFoodItem() != null)
             dto.setFoodItemId(entity.getFoodItem().getId());
@@ -46,7 +49,8 @@ public class OrderItemMapper implements Mapper<OrderItem, OrderItemDto> {
         Optional<OrderHead> orderHead = orderHeadRepository.findById(dto.getOrderHeadId());
         orderHead.ifPresent(entity::setOrderHead);
         entity.setAmount(dto.getAmount());
-        entity.setComment(dto.getComment());
+        Optional<OrderItem> orderItem = orderItemRepository.findById(dto.getParentId());
+        orderItem.ifPresent(entity::setParentOrderItem);
         entity.setOwnOrder(dto.getOwnOrder());
         Optional<FoodItem> foodItem = foodItemRepository.findById(dto.getFoodItemId());
         foodItem.ifPresent(entity::setFoodItem);

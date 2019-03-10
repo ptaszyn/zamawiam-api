@@ -13,4 +13,5 @@ public class FoodGroupDto {
     private Long restaurantId;
     private Boolean isMain;
     private List<FoodItemDto> foodItems;
+    private List<FoodGroupDto> sideFoodGroups;
 }

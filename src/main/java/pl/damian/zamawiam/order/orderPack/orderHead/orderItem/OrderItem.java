@@ -1,10 +1,6 @@
 package pl.damian.zamawiam.order.orderPack.orderHead.orderItem;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import lombok.Data;
 import pl.damian.zamawiam.order.orderPack.orderHead.OrderHead;
@@ -34,5 +30,7 @@ public class OrderItem {
 
     private BigDecimal amount;
 
-    private String comment;
+    @OneToOne(fetch= FetchType.EAGER, optional = false)
+    @JoinColumn(name="parent_id", referencedColumnName="id", nullable = true)
+    private OrderItem parentOrderItem;
 }

@@ -13,5 +13,5 @@ public class OrderItemDto {
     private Long foodItemId;
     private String ownOrder;
     private BigDecimal amount;
-    private String comment;
+    private Long parentId;
 }
