@@ -20,17 +20,17 @@ public class OrderItem {
     @ManyToOne
     private OrderHead orderHead;
 
+    private String ownOrder;
+
+    private BigDecimal amount;
+
     @ManyToOne
     private OrderMenu orderMenu;
 
     @ManyToOne
     private FoodItem foodItem;
 
-    private String ownOrder;
-
-    private BigDecimal amount;
-
-    @OneToOne(fetch= FetchType.EAGER, optional = false)
-    @JoinColumn(name="parent_id", referencedColumnName="id", nullable = true)
+    @OneToOne
+    @JoinColumn(name="parent_id", referencedColumnName="id")
     private OrderItem parentOrderItem;
 }

@@ -8,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/orderpacks")
@@ -15,6 +16,9 @@ public class OrderPackResource {
 
     @Autowired
     private OrderPackService orderPackService;
+
+    @GetMapping
+    public List<OrderPackDto> getAllByUser(){ return orderPackService.findAllByUser(); }
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderPackDto> get(@PathVariable Long id){

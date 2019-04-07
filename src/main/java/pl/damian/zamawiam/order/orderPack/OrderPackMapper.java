@@ -61,8 +61,10 @@ public class OrderPackMapper implements Mapper<OrderPack, OrderPackDto> {
         //entity.setTimeLimit(dto.getTimeLimit());
         Optional<OrderStatus> orderStatus = orderStatusRepository.findById(dto.getOrderStatusId());
         orderStatus.ifPresent(entity::setOrderStatus);
+        /*
         entity.setStatusChanged(dto.getStatusChanged());
         entity.setCreated(dto.getCreated());
+        */
         if (dto.getOrderMenus() != null && dto.getId() != null)
             entity.setOrderMenus(dto.getOrderMenus().stream().map(orderMenuMapper::toEntity).collect(Collectors.toList()));
         return entity;

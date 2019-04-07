@@ -3,10 +3,8 @@ package pl.damian.zamawiam.order.orderPack.orderHead.orderItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.damian.zamawiam.order.orderPack.orderHead.OrderHead;
-import pl.damian.zamawiam.order.orderPack.orderHead.OrderHeadDto;
 import pl.damian.zamawiam.order.orderPack.orderHead.OrderHeadRepository;
 import pl.damian.zamawiam.security.auth.AuthenticationFacade;
-import pl.damian.zamawiam.security.user.UserDetailsImpl;
 
 import java.util.List;
 import java.util.Optional;

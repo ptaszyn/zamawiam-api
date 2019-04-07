@@ -37,7 +37,8 @@ public class OrderHeadMapper implements Mapper<OrderHead, OrderHeadDto> {
         dto.setUserId(entity.getUser().getId());
         dto.setComment(entity.getComment());
         dto.setPayment(entity.getPayment().name());
-        dto.setOrderItems(entity.getOrderItems().stream().map(orderItemMapper::toDto).collect(Collectors.toList()));
+        if (entity.getOrderItems() != null)
+            dto.setOrderItems(entity.getOrderItems().stream().map(orderItemMapper::toDto).collect(Collectors.toList()));
         dto.setAmount(entity.getAmount());
         dto.setPaid(entity.getPaid());
         return dto;
@@ -46,16 +47,26 @@ public class OrderHeadMapper implements Mapper<OrderHead, OrderHeadDto> {
     @Override
     public OrderHead toEntity(OrderHeadDto dto) {
         OrderHead entity = new OrderHead();
+
         entity.setId(dto.getId());
+
         Optional<OrderPack> orderPack = orderPackRepository.findById(dto.getOrderPackId());
         orderPack.ifPresent(entity::setOrderPack);
+
         Optional<User> user = userRepository.findById(dto.getUserId());
         user.ifPresent(entity::setUser);
+
         entity.setComment(dto.getComment());
+
         entity.setPayment(Payment.valueOf(dto.getPayment()));
-        entity.setOrderItems(dto.getOrderItems().stream().map(orderItemMapper::toEntity).collect(Collectors.toList()));
+
+        if (dto.getId() != null)
+            entity.setOrderItems(dto.getOrderItems().stream().map(orderItemMapper::toEntity).collect(Collectors.toList()));
+
         entity.setAmount(dto.getAmount());
+
         entity.setPaid(dto.getPaid());
+
         return entity;
     }
 }

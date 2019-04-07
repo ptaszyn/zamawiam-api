@@ -24,38 +24,50 @@ public class OrderItemMapper implements Mapper<OrderItem, OrderItemDto> {
     @Autowired
     private FoodItemRepository foodItemRepository;
 
-    @Autowired
-    private OrderItemRepository orderItemRepository;
-
     @Override
     public OrderItemDto toDto(OrderItem entity) {
         OrderItemDto dto = new OrderItemDto();
+
         dto.setId(entity.getId());
+
         dto.setOrderHeadId(entity.getOrderHead().getId());
+
         dto.setAmount(entity.getAmount());
-        dto.setParentId(entity.getParentOrderItem().getId());
+
         dto.setOwnOrder(entity.getOwnOrder());
+
         if (entity.getFoodItem() != null)
             dto.setFoodItemId(entity.getFoodItem().getId());
+
         if (entity.getOrderMenu() != null)
             dto.setOrderMenuId(entity.getOrderMenu().getId());
+
         return dto;
     }
 
     @Override
     public OrderItem toEntity(OrderItemDto dto) {
         OrderItem entity = new OrderItem();
+
         entity.setId(dto.getId());
+
         Optional<OrderHead> orderHead = orderHeadRepository.findById(dto.getOrderHeadId());
         orderHead.ifPresent(entity::setOrderHead);
+
         entity.setAmount(dto.getAmount());
-        Optional<OrderItem> orderItem = orderItemRepository.findById(dto.getParentId());
-        orderItem.ifPresent(entity::setParentOrderItem);
+
         entity.setOwnOrder(dto.getOwnOrder());
-        Optional<FoodItem> foodItem = foodItemRepository.findById(dto.getFoodItemId());
-        foodItem.ifPresent(entity::setFoodItem);
-        Optional<OrderMenu> orderMenu = orderMenuRepository.findById(dto.getOrderMenuId());
-        orderMenu.ifPresent(entity::setOrderMenu);
+
+        if(dto.getFoodItemId() != null){
+            Optional<FoodItem> foodItem = foodItemRepository.findById(dto.getFoodItemId());
+            foodItem.ifPresent(entity::setFoodItem);
+        }
+
+        if(dto.getOrderMenuId() != null){
+            Optional<OrderMenu> orderMenu = orderMenuRepository.findById(dto.getOrderMenuId());
+            orderMenu.ifPresent(entity::setOrderMenu);
+        }
+
         return entity;
     }
 }

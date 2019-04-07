@@ -30,7 +30,7 @@ public class OrderItemResource {
     }
 
     @PostMapping
-    public ResponseEntity<OrderItemDto> addOrderHead(@RequestBody OrderItemDto dto) {
+    public ResponseEntity<OrderItemDto> addOrderItem(@RequestBody OrderItemDto dto) {
         if (dto.getId() != null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         OrderItemDto orderItemDto = orderItemService.create(dto);
@@ -42,7 +42,7 @@ public class OrderItemResource {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OrderItemDto> putOrderHead(@RequestBody OrderItemDto dto){
+    public ResponseEntity<OrderItemDto> putOrderItem(@RequestBody OrderItemDto dto){
         OrderItemDto orderHeadDto = orderItemService.update(dto);
         return ResponseEntity.ok(orderHeadDto);
     }

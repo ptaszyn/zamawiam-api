@@ -5,12 +5,14 @@ import org.springframework.stereotype.Service;
 import pl.damian.zamawiam.order.orderPack.OrderPack;
 import pl.damian.zamawiam.order.orderPack.OrderPackRepository;
 import pl.damian.zamawiam.order.orderPack.orderHead.orderItem.OrderItem;
+import pl.damian.zamawiam.order.orderPack.orderHead.orderItem.OrderItemDto;
 import pl.damian.zamawiam.order.orderPack.orderHead.orderItem.OrderItemMapper;
 import pl.damian.zamawiam.order.orderPack.orderHead.orderItem.OrderItemRepository;
 import pl.damian.zamawiam.order.orderPack.orderMenu.OrderMenu;
 import pl.damian.zamawiam.security.auth.AuthenticationFacade;
 import pl.damian.zamawiam.security.user.UserDetailsImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,16 +53,9 @@ public class OrderHeadService {
     public OrderHeadDto create(OrderHeadDto dto) {
         UserDetailsImpl userDetails = (UserDetailsImpl) authenticationFacade.getAuthentication().getPrincipal();
         dto.setUserId(userDetails.getId());
-        OrderHeadDto orderHeadDto = saveOrderHeadDto(dto);
-        if (dto.getOrderItems() != null && dto.getOrderItems().size() > 0) {
-            orderHeadDto.setOrderItems(dto.getOrderItems().stream().map(orderItemDto -> {
-                orderItemDto.setOrderHeadId(orderHeadDto.getId());
-                OrderItem entity = orderItemMapper.toEntity(orderItemDto);
-                OrderItem entitySaved = orderItemRepository.save(entity);
-                return orderItemMapper.toDto(entitySaved);
-            }).collect(Collectors.toList()));
-        }
-        return orderHeadDto;
+        OrderHeadDto savedOrderHeadDTO = saveOrderHeadDto(dto);
+        savedOrderHeadDTO.setOrderItems(saveOrderItemsDto(dto.getOrderItems(), savedOrderHeadDTO.getId()));
+        return savedOrderHeadDTO;
     }
 
     public OrderHeadDto update(OrderHeadDto dto) {
@@ -71,5 +66,20 @@ public class OrderHeadService {
         OrderHead orderHead = orderHeadMapper.toEntity(dto);
         OrderHead orderHeadSaved = orderHeadRepository.save(orderHead);
         return orderHeadMapper.toDto(orderHeadSaved);
+    }
+
+    private List<OrderItemDto> saveOrderItemsDto(List<OrderItemDto> orderItems, Long orderHeadId){
+        List<OrderItemDto> savedOrderItems = new ArrayList<OrderItemDto>();
+        if (orderItems != null && orderItems.size() > 0) {
+            savedOrderItems = orderItems.stream().map(orderItemDto -> {
+                orderItemDto.setOrderHeadId(orderHeadId);
+                OrderItem entity = orderItemMapper.toEntity(orderItemDto);
+                OrderItem entitySaved = orderItemRepository.save(entity);
+                OrderItemDto savedOrderItemDto = orderItemMapper.toDto(entitySaved);
+                savedOrderItemDto.setOrderItems(saveOrderItemsDto(orderItemDto.getOrderItems(), orderHeadId));
+                return savedOrderItemDto;
+            }).collect(Collectors.toList());
+        }
+        return savedOrderItems;
     }
 }

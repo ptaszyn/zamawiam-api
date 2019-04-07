@@ -7,9 +7,12 @@ import pl.damian.zamawiam.order.orderPack.orderMenu.OrderMenuMapper;
 import pl.damian.zamawiam.order.orderPack.orderMenu.OrderMenuRepository;
 import pl.damian.zamawiam.order.orderPack.orderStatus.OrderStatusRepository;
 import pl.damian.zamawiam.security.auth.AuthenticationFacade;
+import pl.damian.zamawiam.security.user.User;
 import pl.damian.zamawiam.security.user.UserDetailsImpl;
+import pl.damian.zamawiam.security.user.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -33,6 +36,15 @@ public class OrderPackService {
 
     @Autowired
     private OrderPackMapper orderPackMapper;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public List<OrderPackDto> findAllByUser() {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authenticationFacade.getAuthentication().getPrincipal();
+        User user = userRepository.getOne(userDetails.getId());
+        return orderPackRepository.findByUser(user).stream().map(orderPackMapper::toDto).collect(Collectors.toList());
+    }
 
     public Optional<OrderPackDto> findById(Long id){
         return orderPackRepository.findById(id).map(orderPackMapper::toDto);
