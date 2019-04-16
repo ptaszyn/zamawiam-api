@@ -49,7 +49,7 @@ public class OrderPackMapper extends GenericMapper<OrderPack, OrderPackDTO> {
         orderPackDto.setMenuSource(orderPack.getMenuSource());
         orderPackDto.setRestaurantId(orderPack.getRestaurant().getId());
         orderPackDto.setRestaurantName(orderPack.getRestaurant().getName());
-        //dto.setTimeLimit(entity.getTimeLimit());
+        orderPackDto.setTimeLimit(orderPack.getTimeLimit());
         orderPackDto.setOrderStatusId(orderPack.getOrderStatus().getId());
         orderPackDto.setOrderStatusName(orderPack.getOrderStatus().getName());
         orderPackDto.setStatusChanged(orderPack.getStatusChanged());
@@ -67,13 +67,11 @@ public class OrderPackMapper extends GenericMapper<OrderPack, OrderPackDTO> {
         orderPack.setMenuSource(orderPackDto.getMenuSource());
         Optional<Restaurant> restaurant = restaurantRepository.findById(orderPackDto.getRestaurantId());
         restaurant.ifPresent(orderPack::setRestaurant);
-        //entity.setTimeLimit(dto.getTimeLimit());
+        orderPack.setTimeLimit(orderPackDto.getTimeLimit());
         Optional<OrderStatus> orderStatus = orderStatusRepository.findById(orderPackDto.getOrderStatusId());
         orderStatus.ifPresent(orderPack::setOrderStatus);
-        /*
-        entity.setStatusChanged(dto.getStatusChanged());
-        entity.setCreated(dto.getCreated());
-        */
+        orderPack.setStatusChanged(orderPackDto.getStatusChanged());
+        orderPack.setCreated(orderPackDto.getCreated());
         if (orderPackDto.getOrderMenus() != null && orderPackDto.getId() != null)
             orderPack.setOrderMenus(orderMenuMapper.convertToEntity(orderPackDto.getOrderMenus()));
     }

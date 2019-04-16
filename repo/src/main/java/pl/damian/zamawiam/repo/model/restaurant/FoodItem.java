@@ -26,5 +26,6 @@ public class FoodItem {
     private Integer version;
 
     @ManyToOne
+    @JoinColumn(updatable = false)
     private FoodGroup foodGroup;
 }

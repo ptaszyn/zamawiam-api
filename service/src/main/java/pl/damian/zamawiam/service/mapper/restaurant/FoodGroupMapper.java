@@ -64,8 +64,10 @@ public class FoodGroupMapper extends GenericMapper<FoodGroup, FoodGroupDTO> {
         foodGroup.setIsMain(foodGroupDTO.getIsMain());
         Optional<Restaurant> restaurant = restaurantRepository.findById(foodGroupDTO.getRestaurantId());
         restaurant.ifPresent(foodGroup::setRestaurant);
-        List<FoodItem> foodItems = foodItemRepository.findByFoodGroup(foodGroup);
-        foodGroup.setFoodItems(foodItems);
+        if(foodGroupDTO.getId()!=null){
+            List<FoodItem> foodItems = foodItemRepository.findByFoodGroup(foodGroup);
+            foodGroup.setFoodItems(foodItems);
+        }
         if(foodGroupDTO.getIsMain()){
             foodGroup.setSideGroups(foodGroupDTO.getSideFoodGroups().stream()
                     .map(foodGroupDto -> foodGroupRepository.findById(foodGroupDto.getId()).get())

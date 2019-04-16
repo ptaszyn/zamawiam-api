@@ -15,6 +15,7 @@ public class OrderMenu {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(updatable = false)
     private OrderPack orderPack;
 
     private String name;

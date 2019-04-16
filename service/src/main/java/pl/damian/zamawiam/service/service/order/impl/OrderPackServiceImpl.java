@@ -62,7 +62,6 @@ public class OrderPackServiceImpl implements OrderPackService {
         UserDetailsImpl userDetails = (UserDetailsImpl) authenticationFacade.getAuthentication().getPrincipal();
         dto.setUserId(userDetails.getId());
         dto.setOrderStatusId(orderStatusRepository.findFirstByOrderBySequenceAsc().getId());
-        dto.setStatusChanged(LocalDateTime.now());
         dto.setCreated(LocalDateTime.now());
         OrderPackDTO orderPackDto = saveOrderPackDto(dto);
         if (dto.getOrderMenus() != null && dto.getOrderMenus().size() > 0) {
@@ -82,6 +81,7 @@ public class OrderPackServiceImpl implements OrderPackService {
     }
 
     private OrderPackDTO saveOrderPackDto(OrderPackDTO dto) {
+        dto.setStatusChanged(LocalDateTime.now());
         OrderPack orderPack = orderPackMapper.convertToEntity(dto);
         OrderPack orderPackSaved = orderPackRepository.save(orderPack);
         return orderPackMapper.convertToDTO(orderPackSaved);

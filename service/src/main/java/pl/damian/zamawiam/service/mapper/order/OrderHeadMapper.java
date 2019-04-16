@@ -46,12 +46,14 @@ public class OrderHeadMapper extends GenericMapper<OrderHead, OrderHeadDTO> {
         orderHeadDto.setId(orderHead.getId());
         orderHeadDto.setOrderPackId(orderHead.getOrderPack().getId());
         orderHeadDto.setUserId(orderHead.getUser().getId());
+        orderHeadDto.setUserName(orderHead.getUser().getEmail());
         orderHeadDto.setComment(orderHead.getComment());
         orderHeadDto.setPayment(orderHead.getPayment().name());
         if (orderHead.getOrderItems() != null)
             orderHeadDto.setOrderItems(orderItemMapper.convertToDTO(orderHead.getOrderItems()));
         orderHeadDto.setAmount(orderHead.getAmount());
         orderHeadDto.setPaid(orderHead.getPaid());
+        orderHeadDto.setMessage(orderHead.getMessage());
     }
 
     @Override
@@ -74,5 +76,7 @@ public class OrderHeadMapper extends GenericMapper<OrderHead, OrderHeadDTO> {
         orderHead.setAmount(orderHeadDto.getAmount());
 
         orderHead.setPaid(orderHeadDto.getPaid());
+
+        orderHead.setMessage(orderHeadDto.getMessage());
     }
 }

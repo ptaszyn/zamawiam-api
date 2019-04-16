@@ -18,22 +18,25 @@ public class OrderPack {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(updatable = false)
     private User user;
 
     @ManyToOne
+    @JoinColumn(updatable = false)
     private Restaurant restaurant;
 
     private String comment;
 
     private Long menuSource;
 
-    //private LocalDateTime timeLimit;
+    private LocalDateTime timeLimit;
 
     @ManyToOne
     private OrderStatus orderStatus;
 
     private LocalDateTime statusChanged;
 
+    @Column(updatable = false)
     private LocalDateTime created;
 
     @OneToMany(mappedBy="orderPack")

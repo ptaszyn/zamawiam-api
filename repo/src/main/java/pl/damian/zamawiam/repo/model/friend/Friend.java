@@ -14,6 +14,7 @@ public class Friend {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(updatable = false)
     private User user;
 
     @ManyToOne

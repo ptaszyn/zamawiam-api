@@ -19,6 +19,7 @@ public class FoodGroup {
     private Boolean isMain;
 
     @ManyToOne
+    @JoinColumn(updatable = false)
     private Restaurant restaurant;
 
     @OneToMany(mappedBy = "foodGroup")

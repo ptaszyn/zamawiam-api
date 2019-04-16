@@ -15,6 +15,7 @@ public class OrderItem {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(updatable = false)
     private OrderHead orderHead;
 
     private String ownOrder;

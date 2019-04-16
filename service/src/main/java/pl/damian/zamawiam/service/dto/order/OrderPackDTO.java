@@ -17,9 +17,16 @@ public class OrderPackDTO {
     private String restaurantName;
     private String comment;
     private Long menuSource;
-    //private LocalDateTime timeLimit;
+
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonFormat(pattern="dd/MM/yyyy hh:mm")
+    private LocalDateTime timeLimit;
+
     private Long orderStatusId;
     private String orderStatusName;
+
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonFormat(pattern="dd/MM/yyyy hh:mm")
     private LocalDateTime statusChanged;
 
     @JsonDeserialize(using = LocalDateDeserializer.class)

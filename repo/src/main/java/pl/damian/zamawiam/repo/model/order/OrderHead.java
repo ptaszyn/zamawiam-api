@@ -16,9 +16,11 @@ public class OrderHead {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(updatable = false)
     private OrderPack orderPack;
 
     @ManyToOne
+    @JoinColumn(updatable = false)
     private User user;
 
     private BigDecimal amount;
@@ -29,6 +31,8 @@ public class OrderHead {
     private Boolean paid;
 
     private String comment;
+
+    private String message;
 
     @OneToMany(mappedBy="orderHead")
     private List<OrderItem> orderItems;
