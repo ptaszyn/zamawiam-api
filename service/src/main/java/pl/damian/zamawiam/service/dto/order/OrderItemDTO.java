@@ -14,5 +14,5 @@ public class OrderItemDTO {
     private BigDecimal amount;
     private Long orderMenuId;
     private Long foodItemId;
-    private List<OrderItemDTO> orderItems;
+    private List<OrderItemDTO> sideOrderItems;
 }

@@ -11,4 +11,6 @@ import java.util.List;
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
     List<OrderItem> findByOrderHead(OrderHead orderHead);
+
+    List<OrderItem> findByParentOrderItem(OrderItem parent);
 }

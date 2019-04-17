@@ -57,7 +57,7 @@ public class OrderHeadServiceImpl implements OrderHeadService {
         UserDetailsImpl userDetails = (UserDetailsImpl) authenticationFacade.getAuthentication().getPrincipal();
         dto.setUserId(userDetails.getId());
         OrderHeadDTO savedOrderHeadDTO = saveOrderHeadDto(dto);
-        savedOrderHeadDTO.setOrderItems(saveOrderItemsDto(dto.getOrderItems(), savedOrderHeadDTO.getId()));
+        savedOrderHeadDTO.setOrderItems(saveOrderItemsDto(dto.getOrderItems(), savedOrderHeadDTO.getId(), null));
         return savedOrderHeadDTO;
     }
 
@@ -72,15 +72,16 @@ public class OrderHeadServiceImpl implements OrderHeadService {
         return orderHeadMapper.convertToDTO(orderHeadSaved);
     }
 
-    private List<OrderItemDTO> saveOrderItemsDto(List<OrderItemDTO> orderItems, Long orderHeadId){
+    private List<OrderItemDTO> saveOrderItemsDto(List<OrderItemDTO> orderItems, Long orderHeadId, OrderItem parent){
         List<OrderItemDTO> savedOrderItems = new ArrayList<OrderItemDTO>();
         if (orderItems != null && orderItems.size() > 0) {
             savedOrderItems = orderItems.stream().map(orderItemDto -> {
                 orderItemDto.setOrderHeadId(orderHeadId);
                 OrderItem entity = orderItemMapper.convertToEntity(orderItemDto);
+                entity.setParentOrderItem(parent);
                 OrderItem entitySaved = orderItemRepository.save(entity);
                 OrderItemDTO savedOrderItemDTO = orderItemMapper.convertToDTO(entitySaved);
-                savedOrderItemDTO.setOrderItems(saveOrderItemsDto(orderItemDto.getOrderItems(), orderHeadId));
+                savedOrderItemDTO.setSideOrderItems(saveOrderItemsDto(orderItemDto.getSideOrderItems(), orderHeadId, entitySaved));
                 return savedOrderItemDTO;
             }).collect(Collectors.toList());
         }

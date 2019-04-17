@@ -15,6 +15,7 @@ import pl.damian.zamawiam.service.dto.order.OrderItemDTO;
 import pl.damian.zamawiam.service.mapper.GenericMapper;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderHeadMapper extends GenericMapper<OrderHead, OrderHeadDTO> {
@@ -49,8 +50,10 @@ public class OrderHeadMapper extends GenericMapper<OrderHead, OrderHeadDTO> {
         orderHeadDto.setUserName(orderHead.getUser().getEmail());
         orderHeadDto.setComment(orderHead.getComment());
         orderHeadDto.setPayment(orderHead.getPayment().name());
-        if (orderHead.getOrderItems() != null)
-            orderHeadDto.setOrderItems(orderItemMapper.convertToDTO(orderHead.getOrderItems()));
+        if (orderHead.getOrderItems() != null){
+            orderHeadDto.setOrderItems(orderItemMapper.convertToDTO(orderHead.getOrderItems().stream()
+                    .filter(orderItem -> orderItem.getParentOrderItem()==null).collect(Collectors.toList())));
+        }
         orderHeadDto.setAmount(orderHead.getAmount());
         orderHeadDto.setPaid(orderHead.getPaid());
         orderHeadDto.setMessage(orderHead.getMessage());

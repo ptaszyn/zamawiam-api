@@ -13,7 +13,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/orderpacks/{orderPackId}/orderheads/{orderHeadId}/orderItems")
+@RequestMapping("/api/orderpacks/{orderPackId}/orderheads/{orderHeadId}/sideOrderItems")
 public class OrderItemResource {
 
     @Autowired

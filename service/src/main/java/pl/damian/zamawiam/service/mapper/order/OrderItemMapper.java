@@ -7,6 +7,7 @@ import pl.damian.zamawiam.repo.model.order.OrderItem;
 import pl.damian.zamawiam.repo.model.order.OrderMenu;
 import pl.damian.zamawiam.repo.model.restaurant.FoodItem;
 import pl.damian.zamawiam.repo.repository.order.OrderHeadRepository;
+import pl.damian.zamawiam.repo.repository.order.OrderItemRepository;
 import pl.damian.zamawiam.repo.repository.order.OrderMenuRepository;
 import pl.damian.zamawiam.repo.repository.restaurant.FoodItemRepository;
 import pl.damian.zamawiam.service.dto.order.OrderItemDTO;
@@ -24,7 +25,13 @@ public class OrderItemMapper extends GenericMapper<OrderItem, OrderItemDTO> {
     private OrderMenuRepository orderMenuRepository;
 
     @Autowired
+    private OrderItemRepository orderItemRepository;
+
+    @Autowired
     private FoodItemRepository foodItemRepository;
+
+    @Autowired
+    private GenericMapper<OrderItem, OrderItemDTO> orderItemMapper;
 
     @Override
     protected OrderItem initEntity() {
@@ -51,6 +58,8 @@ public class OrderItemMapper extends GenericMapper<OrderItem, OrderItemDTO> {
 
         if (orderItem.getOrderMenu() != null)
             orderItemDto.setOrderMenuId(orderItem.getOrderMenu().getId());
+
+        orderItemDto.setSideOrderItems(orderItemMapper.convertToDTO(orderItemRepository.findByParentOrderItem(orderItem)));
     }
 
     @Override
