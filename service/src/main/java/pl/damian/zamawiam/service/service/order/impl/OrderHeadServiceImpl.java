@@ -63,6 +63,7 @@ public class OrderHeadServiceImpl implements OrderHeadService {
 
     @Override
     public OrderHeadDTO update(OrderHeadDTO dto) {
+        dto.setOrderItems(saveOrderItemsDto(dto.getOrderItems(), dto.getId(), null));
         return saveOrderHeadDto(dto);
     }
 
