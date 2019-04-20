@@ -27,7 +27,7 @@ public class FoodItemMapper extends GenericMapper<FoodItem, FoodItemDTO> {
     }
 
     @Override
-    protected void mapEntitytoDTO(FoodItem foodItem, FoodItemDTO foodItemDTO) {
+    protected void mapEntityToDTO(FoodItem foodItem, FoodItemDTO foodItemDTO) {
         foodItemDTO.setId(foodItem.getId());
         foodItemDTO.setEnabled(foodItem.getEnabled());
         foodItemDTO.setName(foodItem.getName());

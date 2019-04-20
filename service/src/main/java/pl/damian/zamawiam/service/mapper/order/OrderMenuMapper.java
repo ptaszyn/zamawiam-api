@@ -27,7 +27,7 @@ public class OrderMenuMapper extends GenericMapper<OrderMenu, OrderMenuDTO> {
     }
 
     @Override
-    protected void mapEntitytoDTO(OrderMenu orderMenu, OrderMenuDTO orderMenuDto) {
+    protected void mapEntityToDTO(OrderMenu orderMenu, OrderMenuDTO orderMenuDto) {
         orderMenuDto.setId(orderMenu.getId());
         orderMenuDto.setName(orderMenu.getName());
         orderMenuDto.setComment(orderMenu.getComment());

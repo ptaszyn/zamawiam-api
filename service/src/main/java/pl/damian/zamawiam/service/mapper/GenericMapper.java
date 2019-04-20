@@ -11,20 +11,20 @@ public abstract class GenericMapper<Entity, DTO> {
 
     protected abstract DTO initDTO();
 
-    protected abstract void mapEntitytoDTO(Entity entity, DTO dto);
+    protected abstract void mapEntityToDTO(Entity entity, DTO dto);
 
     protected abstract void mapDTOToEntity(DTO dto, Entity entity);
 
-    public DTO convertToDTO(Entity entity) {
+    public DTO toDTO(Entity entity) {
         if (entity == null)
             return null;
 
         DTO dto = initDTO();
-        mapEntitytoDTO(entity, dto);
+        mapEntityToDTO(entity, dto);
         return dto;
     }
 
-    public Entity convertToEntity(DTO dto) {
+    public Entity toEntity(DTO dto) {
         if (dto == null)
             return null;
 
@@ -33,24 +33,24 @@ public abstract class GenericMapper<Entity, DTO> {
         return entity;
     }
 
-    public List<DTO> convertToDTO(List<Entity> entityList) {
+    public List<DTO> toDTO(List<Entity> entityList) {
         if (entityList == null)
             return Collections.emptyList();
 
         List<DTO> result = new ArrayList<>();
         for (Entity entity : entityList) {
-            result.add(convertToDTO(entity));
+            result.add(toDTO(entity));
         }
         return result;
     }
 
-    public List<Entity> convertToEntity(List<DTO> DTOList) {
+    public List<Entity> toEntity(List<DTO> DTOList) {
         if (DTOList == null)
             return Collections.emptyList();
 
         List<Entity> result = new ArrayList<>();
         for (DTO dto : DTOList) {
-            result.add(convertToEntity(dto));
+            result.add(toEntity(dto));
         }
         return result;
     }

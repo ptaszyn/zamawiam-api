@@ -32,12 +32,12 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public List<OrderItemDTO> getAllByHeadId(Long headId) {
         OrderHead orderHead = orderHeadRepository.findById(headId).get();
-        return orderItemMapper.convertToDTO(orderItemRepository.findByOrderHead(orderHead));
+        return orderItemMapper.toDTO(orderItemRepository.findByOrderHead(orderHead));
     }
 
     @Override
     public Optional<OrderItemDTO> findById(Long id) {
-        return orderItemRepository.findById(id).map(orderItemMapper::convertToDTO);
+        return orderItemRepository.findById(id).map(orderItemMapper::toDTO);
     }
 
     @Override
@@ -51,8 +51,8 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     private OrderItemDTO saveOrderItemDto(OrderItemDTO dto) {
-        OrderItem orderItem = orderItemMapper.convertToEntity(dto);
+        OrderItem orderItem = orderItemMapper.toEntity(dto);
         OrderItem orderItemSaved = orderItemRepository.save(orderItem);
-        return orderItemMapper.convertToDTO(orderItemSaved);
+        return orderItemMapper.toDTO(orderItemSaved);
     }
 }

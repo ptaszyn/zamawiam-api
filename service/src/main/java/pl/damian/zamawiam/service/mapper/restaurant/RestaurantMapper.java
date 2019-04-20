@@ -19,7 +19,7 @@ public class RestaurantMapper extends GenericMapper<Restaurant, RestaurantDTO> {
     }
 
     @Override
-    protected void mapEntitytoDTO(Restaurant restaurant, RestaurantDTO restaurantDTO) {
+    protected void mapEntityToDTO(Restaurant restaurant, RestaurantDTO restaurantDTO) {
         restaurantDTO.setId(restaurant.getId());
         restaurantDTO.setName(restaurant.getName());
         restaurantDTO.setUrl(restaurant.getUrl());

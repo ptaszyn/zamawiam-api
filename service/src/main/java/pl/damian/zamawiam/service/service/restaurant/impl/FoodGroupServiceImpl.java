@@ -28,8 +28,8 @@ public class FoodGroupServiceImpl implements FoodGroupService {
     }
 
     private FoodGroupDTO saveFoodGroupDto(FoodGroupDTO dto) {
-        FoodGroup entity = foodGroupMapper.convertToEntity(dto);
+        FoodGroup entity = foodGroupMapper.toEntity(dto);
         FoodGroup entitySaved = foodGroupRepository.save(entity);
-        return foodGroupMapper.convertToDTO(entitySaved);
+        return foodGroupMapper.toDTO(entitySaved);
     }
 }

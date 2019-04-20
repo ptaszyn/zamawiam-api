@@ -14,7 +14,6 @@ import pl.damian.zamawiam.service.dto.order.OrderPackDTO;
 import pl.damian.zamawiam.service.mapper.GenericMapper;
 import pl.damian.zamawiam.service.service.order.OrderPackService;
 import pl.damian.zamawiam.service.service.security.AuthenticationFacade;
-import pl.damian.zamawiam.service.service.security.impl.userDetails.UserDetailsImpl;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -46,30 +45,29 @@ public class OrderPackServiceImpl implements OrderPackService {
     private GenericMapper<OrderPack, OrderPackDTO> orderPackMapper;
 
     @Override
-    public List<OrderPackDTO> findAllByUser() {
-        UserDetailsImpl userDetails = (UserDetailsImpl) authenticationFacade.getAuthentication().getPrincipal();
-        User user = userRepository.getOne(userDetails.getId());
-        return orderPackMapper.convertToDTO(orderPackRepository.findByUser(user));
+    public List<OrderPackDTO> findAll(boolean isOwner) {
+        User user = userRepository.getOne(authenticationFacade.getUserId());
+        if (isOwner) return orderPackMapper.toDTO(orderPackRepository.findByUser(user));
+        return orderPackMapper.toDTO(orderPackRepository.findAll());
     }
 
     @Override
     public Optional<OrderPackDTO> findById(Long id) {
-        return orderPackRepository.findById(id).map(orderPackMapper::convertToDTO);
+        return orderPackRepository.findById(id).map(orderPackMapper::toDTO);
     }
 
     @Override
     public OrderPackDTO create(OrderPackDTO dto) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) authenticationFacade.getAuthentication().getPrincipal();
-        dto.setUserId(userDetails.getId());
+        dto.setUserId(authenticationFacade.getUserId());
         dto.setOrderStatusId(orderStatusRepository.findFirstByOrderBySequenceAsc().getId());
         dto.setCreated(LocalDateTime.now());
         OrderPackDTO orderPackDto = saveOrderPackDto(dto);
         if (dto.getOrderMenus() != null && dto.getOrderMenus().size() > 0) {
             orderPackDto.setOrderMenus(dto.getOrderMenus().stream().map(orderMenuDTO -> {
                 orderMenuDTO.setOrderPackId(orderPackDto.getId());
-                OrderMenu entity = orderMenuMapper.convertToEntity(orderMenuDTO);
+                OrderMenu entity = orderMenuMapper.toEntity(orderMenuDTO);
                 OrderMenu entitySaved = orderMenuRepository.save(entity);
-                return orderMenuMapper.convertToDTO(entitySaved);
+                return orderMenuMapper.toDTO(entitySaved);
             }).collect(Collectors.toList()));
         }
         return orderPackDto;
@@ -82,8 +80,8 @@ public class OrderPackServiceImpl implements OrderPackService {
 
     private OrderPackDTO saveOrderPackDto(OrderPackDTO dto) {
         dto.setStatusChanged(LocalDateTime.now());
-        OrderPack orderPack = orderPackMapper.convertToEntity(dto);
+        OrderPack orderPack = orderPackMapper.toEntity(dto);
         OrderPack orderPackSaved = orderPackRepository.save(orderPack);
-        return orderPackMapper.convertToDTO(orderPackSaved);
+        return orderPackMapper.toDTO(orderPackSaved);
     }
 }

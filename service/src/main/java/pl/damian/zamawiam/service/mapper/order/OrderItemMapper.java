@@ -44,7 +44,7 @@ public class OrderItemMapper extends GenericMapper<OrderItem, OrderItemDTO> {
     }
 
     @Override
-    protected void mapEntitytoDTO(OrderItem orderItem, OrderItemDTO orderItemDto) {
+    protected void mapEntityToDTO(OrderItem orderItem, OrderItemDTO orderItemDto) {
         orderItemDto.setId(orderItem.getId());
 
         orderItemDto.setOrderHeadId(orderItem.getOrderHead().getId());
@@ -59,7 +59,7 @@ public class OrderItemMapper extends GenericMapper<OrderItem, OrderItemDTO> {
         if (orderItem.getOrderMenu() != null)
             orderItemDto.setOrderMenuId(orderItem.getOrderMenu().getId());
 
-        orderItemDto.setSideOrderItems(orderItemMapper.convertToDTO(orderItemRepository.findByParentOrderItem(orderItem)));
+        orderItemDto.setSideOrderItems(orderItemMapper.toDTO(orderItemRepository.findByParentOrderItem(orderItem)));
     }
 
     @Override

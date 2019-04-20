@@ -45,15 +45,15 @@ public class FoodGroupMapper extends GenericMapper<FoodGroup, FoodGroupDTO> {
     }
 
     @Override
-    protected void mapEntitytoDTO(FoodGroup foodGroup, FoodGroupDTO foodGroupDTO) {
+    protected void mapEntityToDTO(FoodGroup foodGroup, FoodGroupDTO foodGroupDTO) {
         foodGroupDTO.setId(foodGroup.getId());
         foodGroupDTO.setName(foodGroup.getName());
         foodGroupDTO.setIsMain(foodGroup.getIsMain());
         foodGroupDTO.setRestaurantId(foodGroup.getRestaurant().getId());
         if (foodGroup.getFoodItems() != null)
-            foodGroupDTO.setFoodItems(foodItemMapper.convertToDTO(foodGroup.getFoodItems()));
+            foodGroupDTO.setFoodItems(foodItemMapper.toDTO(foodGroup.getFoodItems()));
         if (foodGroup.getIsMain()){
-            foodGroupDTO.setSideFoodGroups(foodGroupMapper.convertToDTO(foodGroup.getSideGroups()));
+            foodGroupDTO.setSideFoodGroups(foodGroupMapper.toDTO(foodGroup.getSideGroups()));
         }
     }
 

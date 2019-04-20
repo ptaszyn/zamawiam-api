@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface OrderPackService {
 
-    public List<OrderPackDTO> findAllByUser();
+    public List<OrderPackDTO> findAll(boolean isOwner);
 
     public Optional<OrderPackDTO> findById(Long id);
 

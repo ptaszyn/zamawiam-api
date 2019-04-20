@@ -9,12 +9,10 @@ import pl.damian.zamawiam.repo.repository.restaurant.RestaurantRepository;
 import pl.damian.zamawiam.service.dto.restaurant.FoodGroupDTO;
 import pl.damian.zamawiam.service.dto.restaurant.RestaurantDTO;
 import pl.damian.zamawiam.service.mapper.GenericMapper;
-import pl.damian.zamawiam.service.mapper.restaurant.RestaurantMapper;
 import pl.damian.zamawiam.service.service.restaurant.RestaurantService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
@@ -33,32 +31,32 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public List<RestaurantDTO> findAll() {
-        return restaurantMapper.convertToDTO(restaurantRepository.findAll());
+        return restaurantMapper.toDTO(restaurantRepository.findAll());
     }
 
     @Override
     public Optional<RestaurantDTO> findById(Long id) {
-        return restaurantRepository.findById(id).map(restaurantMapper::convertToDTO);
+        return restaurantRepository.findById(id).map(restaurantMapper::toDTO);
     }
 
     @Override
     public RestaurantDTO create(RestaurantDTO dto) {
-        Restaurant entity = restaurantMapper.convertToEntity(dto);
+        Restaurant entity = restaurantMapper.toEntity(dto);
         Restaurant entitySaved = restaurantRepository.save(entity);
-        return restaurantMapper.convertToDTO(entitySaved);
+        return restaurantMapper.toDTO(entitySaved);
     }
 
     @Override
     public RestaurantDTO update(RestaurantDTO dto) {
-        Restaurant entity = restaurantMapper.convertToEntity(dto);
+        Restaurant entity = restaurantMapper.toEntity(dto);
         restaurantRepository.findById(entity.getId()).ifPresent(restaurant -> entity.setVersion(restaurant.getVersion()));
         Restaurant entitySaved = restaurantRepository.save(entity);
-        return restaurantMapper.convertToDTO(entitySaved);
+        return restaurantMapper.toDTO(entitySaved);
     }
 
     @Override
     public List<FoodGroupDTO> findMenu(Long id) {
         Optional<Restaurant> restaurant = restaurantRepository.findById(id);
-        return foodGroupMapper.convertToDTO(foodGroupRepository.findByRestaurant(restaurant.get()));
+        return foodGroupMapper.toDTO(foodGroupRepository.findByRestaurant(restaurant.get()));
     }
 }

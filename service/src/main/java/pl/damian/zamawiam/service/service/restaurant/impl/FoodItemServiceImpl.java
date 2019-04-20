@@ -19,16 +19,16 @@ public class FoodItemServiceImpl implements FoodItemService {
 
     @Override
     public FoodItemDTO create(FoodItemDTO dto) {
-        FoodItem foodItem = foodItemMapper.convertToEntity(dto);
+        FoodItem foodItem = foodItemMapper.toEntity(dto);
         FoodItem foodItemSaved = foodItemRepository.save(foodItem);
-        return foodItemMapper.convertToDTO(foodItemSaved);
+        return foodItemMapper.toDTO(foodItemSaved);
     }
 
     @Override
     public FoodItemDTO update(FoodItemDTO dto) {
-        FoodItem entity = foodItemMapper.convertToEntity(dto);
+        FoodItem entity = foodItemMapper.toEntity(dto);
         foodItemRepository.findById(entity.getId()).ifPresent(foodItem -> entity.setVersion(foodItem.getVersion()));
         FoodItem foodItemSaved = foodItemRepository.save(entity);
-        return foodItemMapper.convertToDTO(foodItemSaved);
+        return foodItemMapper.toDTO(foodItemSaved);
     }
 }

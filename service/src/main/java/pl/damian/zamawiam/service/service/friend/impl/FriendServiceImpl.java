@@ -34,7 +34,7 @@ public class FriendServiceImpl implements FriendService {
     public List<FriendDTO> findFriends() {
         UserDetailsImpl userDetails = (UserDetailsImpl) authenticationFacade.getAuthentication().getPrincipal();
         User user = userRepository.getOne(userDetails.getId());
-        return friendMapper.convertToDTO(friendRepository.findByUser(user));
+        return friendMapper.toDTO(friendRepository.findByUser(user));
     }
 
     @Override
@@ -45,13 +45,13 @@ public class FriendServiceImpl implements FriendService {
         friendDTOs = friendDTOs.stream().map(friendDTO -> {
             if(friendDTO.getFriendId()==null){
                 Optional<User> friend = userRepository.findFirstByEmailIgnoreCase(friendDTO.getEmail());
-                return friend.ifPresent(friendDTO.setFriendId(friend.get().getId()));
+                return friend.ifPresent(friendDTO.setFriendId(friend.get().getUserId()));
             }
         }).collect(Collectors.toList());        */
         return friendDTOs.stream()
-                .map(friendMapper::convertToEntity)
+                .map(friendMapper::toEntity)
                 .map(friendRepository::save)
-                .map(friendMapper::convertToDTO)
+                .map(friendMapper::toDTO)
                 .collect(Collectors.toList());
     }
 }

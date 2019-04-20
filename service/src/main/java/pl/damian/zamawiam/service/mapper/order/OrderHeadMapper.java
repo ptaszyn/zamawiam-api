@@ -43,7 +43,7 @@ public class OrderHeadMapper extends GenericMapper<OrderHead, OrderHeadDTO> {
     }
 
     @Override
-    protected void mapEntitytoDTO(OrderHead orderHead, OrderHeadDTO orderHeadDto) {
+    protected void mapEntityToDTO(OrderHead orderHead, OrderHeadDTO orderHeadDto) {
         orderHeadDto.setId(orderHead.getId());
         orderHeadDto.setOrderPackId(orderHead.getOrderPack().getId());
         orderHeadDto.setUserId(orderHead.getUser().getId());
@@ -51,7 +51,7 @@ public class OrderHeadMapper extends GenericMapper<OrderHead, OrderHeadDTO> {
         orderHeadDto.setComment(orderHead.getComment());
         orderHeadDto.setPayment(orderHead.getPayment().name());
         if (orderHead.getOrderItems() != null){
-            orderHeadDto.setOrderItems(orderItemMapper.convertToDTO(orderHead.getOrderItems().stream()
+            orderHeadDto.setOrderItems(orderItemMapper.toDTO(orderHead.getOrderItems().stream()
                     .filter(orderItem -> orderItem.getParentOrderItem()==null).collect(Collectors.toList())));
         }
         orderHeadDto.setAmount(orderHead.getAmount());
@@ -74,7 +74,7 @@ public class OrderHeadMapper extends GenericMapper<OrderHead, OrderHeadDTO> {
         orderHead.setPayment(Payment.valueOf(orderHeadDto.getPayment()));
 
         if (orderHeadDto.getId() != null)
-            orderHead.setOrderItems(orderItemMapper.convertToEntity(orderHeadDto.getOrderItems()));
+            orderHead.setOrderItems(orderItemMapper.toEntity(orderHeadDto.getOrderItems()));
 
         orderHead.setAmount(orderHeadDto.getAmount());
 

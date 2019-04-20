@@ -27,7 +27,7 @@ public class FriendMapper extends GenericMapper<Friend, FriendDTO> {
     }
 
     @Override
-    protected void mapEntitytoDTO(Friend friend, FriendDTO friendDTO) {
+    protected void mapEntityToDTO(Friend friend, FriendDTO friendDTO) {
         friendDTO.setId(friend.getId());
         friendDTO.setUserId(friend.getUser().getId());
         friendDTO.setFriendId(friend.getFriend().getId());

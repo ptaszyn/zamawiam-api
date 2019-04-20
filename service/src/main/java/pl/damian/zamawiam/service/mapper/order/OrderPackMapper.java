@@ -42,7 +42,7 @@ public class OrderPackMapper extends GenericMapper<OrderPack, OrderPackDTO> {
     }
 
     @Override
-    protected void mapEntitytoDTO(OrderPack orderPack, OrderPackDTO orderPackDto) {
+    protected void mapEntityToDTO(OrderPack orderPack, OrderPackDTO orderPackDto) {
         orderPackDto.setId(orderPack.getId());
         orderPackDto.setUserId(orderPack.getUser().getId());
         orderPackDto.setComment(orderPack.getComment());
@@ -55,7 +55,7 @@ public class OrderPackMapper extends GenericMapper<OrderPack, OrderPackDTO> {
         orderPackDto.setStatusChanged(orderPack.getStatusChanged());
         orderPackDto.setCreated(orderPack.getCreated());
         if (orderPack.getOrderMenus() != null)
-            orderPackDto.setOrderMenus(orderMenuMapper.convertToDTO(orderPack.getOrderMenus()));
+            orderPackDto.setOrderMenus(orderMenuMapper.toDTO(orderPack.getOrderMenus()));
     }
 
     @Override
@@ -73,6 +73,6 @@ public class OrderPackMapper extends GenericMapper<OrderPack, OrderPackDTO> {
         orderPack.setStatusChanged(orderPackDto.getStatusChanged());
         orderPack.setCreated(orderPackDto.getCreated());
         if (orderPackDto.getOrderMenus() != null && orderPackDto.getId() != null)
-            orderPack.setOrderMenus(orderMenuMapper.convertToEntity(orderPackDto.getOrderMenus()));
+            orderPack.setOrderMenus(orderMenuMapper.toEntity(orderPackDto.getOrderMenus()));
     }
 }

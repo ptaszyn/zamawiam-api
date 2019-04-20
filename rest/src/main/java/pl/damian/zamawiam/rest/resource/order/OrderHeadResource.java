@@ -21,8 +21,8 @@ public class OrderHeadResource {
     private OrderHeadService orderHeadService;
 
     @GetMapping
-    public List<OrderHeadDTO> getOrderHeads(@PathVariable Long orderPackId) {
-        return orderHeadService.findAllByPackId(orderPackId);
+    public List<OrderHeadDTO> getAllByPackId(@PathVariable Long orderPackId, @RequestParam(defaultValue = "false") boolean isOwner) {
+        return orderHeadService.findAllByPackId(orderPackId, isOwner);
     }
 
     @GetMapping("/{id}")

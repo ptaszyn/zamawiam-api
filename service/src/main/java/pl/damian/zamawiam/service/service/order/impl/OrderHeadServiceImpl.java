@@ -5,15 +5,16 @@ import org.springframework.stereotype.Service;
 import pl.damian.zamawiam.repo.model.order.OrderHead;
 import pl.damian.zamawiam.repo.model.order.OrderItem;
 import pl.damian.zamawiam.repo.model.order.OrderPack;
+import pl.damian.zamawiam.repo.model.security.User;
 import pl.damian.zamawiam.repo.repository.order.OrderHeadRepository;
 import pl.damian.zamawiam.repo.repository.order.OrderItemRepository;
 import pl.damian.zamawiam.repo.repository.order.OrderPackRepository;
+import pl.damian.zamawiam.repo.repository.security.UserRepository;
 import pl.damian.zamawiam.service.dto.order.OrderHeadDTO;
 import pl.damian.zamawiam.service.dto.order.OrderItemDTO;
 import pl.damian.zamawiam.service.mapper.GenericMapper;
 import pl.damian.zamawiam.service.service.order.OrderHeadService;
 import pl.damian.zamawiam.service.service.security.AuthenticationFacade;
-import pl.damian.zamawiam.service.service.security.impl.userDetails.UserDetailsImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,26 +37,30 @@ public class OrderHeadServiceImpl implements OrderHeadService {
     private OrderItemRepository orderItemRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private GenericMapper<OrderHead, OrderHeadDTO> orderHeadMapper;
 
     @Autowired
     private GenericMapper<OrderItem, OrderItemDTO> orderItemMapper;
 
     @Override
-    public List<OrderHeadDTO> findAllByPackId(Long packId) {
+    public List<OrderHeadDTO> findAllByPackId(Long packId, boolean isOwner) {
         OrderPack orderPack = orderPackRepository.findById(packId).get();
-        return orderHeadMapper.convertToDTO(orderHeadRepository.findByOrderPack(orderPack));
+        User user = userRepository.getOne(authenticationFacade.getUserId());
+        if(isOwner) return orderHeadMapper.toDTO(orderHeadRepository.findByOrderPackAndUser(orderPack, user));
+        return orderHeadMapper.toDTO(orderHeadRepository.findByOrderPack(orderPack));
     }
 
     @Override
     public Optional<OrderHeadDTO> findById(Long packId, Long id) {
-        return orderHeadRepository.findById(id).map(orderHeadMapper::convertToDTO);
+        return orderHeadRepository.findById(id).map(orderHeadMapper::toDTO);
     }
 
     @Override
     public OrderHeadDTO create(OrderHeadDTO dto) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) authenticationFacade.getAuthentication().getPrincipal();
-        dto.setUserId(userDetails.getId());
+        dto.setUserId(authenticationFacade.getUserId());
         OrderHeadDTO savedOrderHeadDTO = saveOrderHeadDto(dto);
         savedOrderHeadDTO.setOrderItems(saveOrderItemsDto(dto.getOrderItems(), savedOrderHeadDTO.getId(), null));
         return savedOrderHeadDTO;
@@ -68,9 +73,9 @@ public class OrderHeadServiceImpl implements OrderHeadService {
     }
 
     private OrderHeadDTO saveOrderHeadDto(OrderHeadDTO dto) {
-        OrderHead orderHead = orderHeadMapper.convertToEntity(dto);
+        OrderHead orderHead = orderHeadMapper.toEntity(dto);
         OrderHead orderHeadSaved = orderHeadRepository.save(orderHead);
-        return orderHeadMapper.convertToDTO(orderHeadSaved);
+        return orderHeadMapper.toDTO(orderHeadSaved);
     }
 
     private List<OrderItemDTO> saveOrderItemsDto(List<OrderItemDTO> orderItems, Long orderHeadId, OrderItem parent){
@@ -78,10 +83,10 @@ public class OrderHeadServiceImpl implements OrderHeadService {
         if (orderItems != null && orderItems.size() > 0) {
             savedOrderItems = orderItems.stream().map(orderItemDto -> {
                 orderItemDto.setOrderHeadId(orderHeadId);
-                OrderItem entity = orderItemMapper.convertToEntity(orderItemDto);
+                OrderItem entity = orderItemMapper.toEntity(orderItemDto);
                 entity.setParentOrderItem(parent);
                 OrderItem entitySaved = orderItemRepository.save(entity);
-                OrderItemDTO savedOrderItemDTO = orderItemMapper.convertToDTO(entitySaved);
+                OrderItemDTO savedOrderItemDTO = orderItemMapper.toDTO(entitySaved);
                 savedOrderItemDTO.setSideOrderItems(saveOrderItemsDto(orderItemDto.getSideOrderItems(), orderHeadId, entitySaved));
                 return savedOrderItemDTO;
             }).collect(Collectors.toList());

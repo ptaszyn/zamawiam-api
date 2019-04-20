@@ -20,7 +20,7 @@ public class OrderPackResource {
     private OrderPackService orderPackService;
 
     @GetMapping
-    public List<OrderPackDTO> getAllByUser(){ return orderPackService.findAllByUser(); }
+    public List<OrderPackDTO> getAll(@RequestParam(defaultValue = "false") Boolean isOwner){ return orderPackService.findAll(isOwner); }
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderPackDTO> get(@PathVariable Long id){
