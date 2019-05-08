@@ -41,4 +41,10 @@ public class OrderPackResource {
         OrderPackDTO orderPackDto = orderPackService.update(dto);
         return ResponseEntity.ok(orderPackDto);
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<OrderPackDTO> patch(@PathVariable Long id, @RequestBody OrderPackDTO dto){
+        OrderPackDTO orderPackDto = orderPackService.update(dto);
+        return ResponseEntity.ok(orderPackDto);
+    }
 }

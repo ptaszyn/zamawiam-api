@@ -1,6 +1,7 @@
 package pl.damian.zamawiam.service.dto.order;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class OrderPackDTO {
 
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonFormat(pattern="dd/MM/yyyy hh:mm")
+    @JsonIgnoreProperties()
     private LocalDateTime timeLimit;
 
     private Long orderStatusId;

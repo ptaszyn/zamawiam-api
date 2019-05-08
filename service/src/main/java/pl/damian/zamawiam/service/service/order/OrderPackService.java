@@ -1,5 +1,6 @@
 package pl.damian.zamawiam.service.service.order;
 
+import pl.damian.zamawiam.service.dto.PatchDTO;
 import pl.damian.zamawiam.service.dto.order.OrderPackDTO;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface OrderPackService {
     public OrderPackDTO create(OrderPackDTO dto);
 
     public OrderPackDTO update(OrderPackDTO dto);
+
+    public OrderPackDTO patch(Long id, List<PatchDTO> dto);
 }

@@ -9,12 +9,15 @@ import pl.damian.zamawiam.repo.repository.order.OrderMenuRepository;
 import pl.damian.zamawiam.repo.repository.order.OrderPackRepository;
 import pl.damian.zamawiam.repo.repository.order.OrderStatusRepository;
 import pl.damian.zamawiam.repo.repository.security.UserRepository;
+import pl.damian.zamawiam.service.dto.PatchDTO;
 import pl.damian.zamawiam.service.dto.order.OrderMenuDTO;
 import pl.damian.zamawiam.service.dto.order.OrderPackDTO;
 import pl.damian.zamawiam.service.mapper.GenericMapper;
 import pl.damian.zamawiam.service.service.order.OrderPackService;
 import pl.damian.zamawiam.service.service.security.AuthenticationFacade;
 
+import javax.transaction.Transactional;
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -76,6 +79,27 @@ public class OrderPackServiceImpl implements OrderPackService {
     @Override
     public OrderPackDTO update(OrderPackDTO dto) {
         return saveOrderPackDto(dto);
+    }
+
+    @Override
+    public OrderPackDTO patch(Long id, List<PatchDTO> dto) {
+        /*
+        OrderPack orderPack = orderPackRepository.getOne(id);
+        dto.stream().map(patchDTO -> {
+            switch(patchDTO.getField()){
+                case "status":
+                    @Transactional
+                    orderPack.setOrderStatus( patchDTO.getValue());
+                    break;
+                    default:
+                        "erroe";
+                        break;
+
+            })
+        })
+        */
+        return null;
+
     }
 
     private OrderPackDTO saveOrderPackDto(OrderPackDTO dto) {
